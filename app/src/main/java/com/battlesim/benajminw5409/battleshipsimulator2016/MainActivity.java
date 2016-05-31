@@ -7,7 +7,9 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -17,45 +19,48 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    String loginUrl = "http://battlegameserver.com/api/v1/login";
+    String username = "benawalls@gmail.com";
+    String password = "DontTell";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final String username = "sdf";
-        final String password = "sdfa";
-
-
         RequestQueue queue = Volley.newRequestQueue( this );
 
-        String stringRequest = new StringRequest( DownloadManager.Request.Method.GET, "http://www.google.com", new Responce.Listener<String>(){
+        StringRequest stringRequest = new StringRequest( Request.Method.GET, loginUrl, new Response.Listener<String>(){
             @Override
-            public void onResponce(String responce){
-                Log.i("Battleship", responce);
+            public void onResponse(String response){
+                Log.i("Battleship", response);
             }
         },
-        new Responce.ErrorListener(){
-            @override
-            public void onErrorResponce(VolleyError e){
-                Log.i("Battleship", e);
+        new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError e){
+                Log.i("Battleship", e.toString());
             }
         }){
-            @override
+            @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 return params;
             }
 
-            @override
-            public Map<String, String>, getHeaders() throws AuthFailureError{
-                Map<String, String> params = new HashMap<String, String>();
-                String credentials = username + ";" + password;
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError{
+                Map<String, String> headers = new HashMap<String, String>();
+                String credentials = username + ":" + password;
                 String auth = "Basic " + Base64.encodeToString( credentials.getBytes(), Base64.NO_WRAP);
+                Log.i("Battle", auth);
+                headers.put("Authorization", auth);
+                return headers;
 
             }
         };
 
-        queue.add( stringRequest);
+        queue.add( stringRequest );
 
     }
 }
