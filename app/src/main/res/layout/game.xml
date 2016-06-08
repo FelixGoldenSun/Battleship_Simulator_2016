@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#fefefe">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tvGameId"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spAddShips"
+        android:layout_below="@+id/tvGameId"
+        android:layout_alignParentStart="true"
+        android:spinnerMode="dropdown"
+        android:layout_toStartOf="@+id/tvGameId" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spAddRows"
+        android:entries="@array/rows"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/tvGameId"
+        android:layout_alignEnd="@+id/tvGameId"
+        android:layout_toEndOf="@+id/spAddShips" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spAddCols"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/tvGameId"
+        android:layout_toEndOf="@+id/spAddRows"
+        android:entries="@array/cols" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Ship"
+        android:id="@+id/btnAddShip"
+        android:layout_below="@+id/spAddShips"
+        android:layout_centerHorizontal="true"
+        android:allowUndo="false"
+        android:onClick="addShipOnClick" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spAddDirections"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/spAddShips"
+        android:layout_alignEnd="@+id/btnAddShip"
+        android:layout_marginEnd="34dp" />
+
+    <com.battlesim.benajminw5409.battleshipsimulator2016.BoardView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view"
+        android:layout_toEndOf="@+id/spAddShips"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spAddDirections"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

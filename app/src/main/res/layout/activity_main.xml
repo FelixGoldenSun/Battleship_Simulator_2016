@@ -10,8 +10,113 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         tools:context="com.battlesim.benajminw5409.battleshipsimulator2016.MainActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/btnLogin"
+        android:onClick="clickLogin"
+        android:layout_below="@+id/etPassword"
+        android:layout_toEndOf="@+id/btnUserPreferences" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etUserName"
+        android:text="benawalls@gmail.com"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etPassword"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/etUserName"
+        android:layout_toEndOf="@+id/textView2"
+        android:text="DontTell" />
+
     <TextView
-            android:text="Hello World!"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Email"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/etUserName"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Password"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/etPassword"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Preferences"
+        android:id="@+id/btnUserPreferences"
+        android:onClick="gotoPreferences"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Game"
+        android:id="@+id/btnStartGame"
+        android:onClick="startGameClick"
+        android:layout_below="@+id/btnUserPreferences"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Existing"
+        android:id="@+id/btnStartExisting"
+        android:onClick="startExistingGameClick"
+        android:layout_below="@+id/etPassword"
+        android:layout_toEndOf="@+id/btnLogin" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etExistingId"
+        android:layout_above="@+id/listView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/btnStartExisting" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Game ID:"
+        android:id="@+id/textView6"
+        android:layout_above="@+id/etExistingId"
+        android:layout_toEndOf="@+id/btnStartExisting" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Users"
+        android:id="@+id/button"
+        android:layout_alignTop="@+id/btnStartGame"
+        android:layout_centerHorizontal="true"
+        android:onClick="getAllUsersOnClick" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/btnStartGame"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/etExistingId"
+        android:choiceMode="singleChoice" />
 </RelativeLayout>
