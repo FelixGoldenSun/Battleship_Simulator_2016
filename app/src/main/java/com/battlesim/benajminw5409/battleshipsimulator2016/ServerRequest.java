@@ -40,7 +40,7 @@ public class ServerRequest {
             @Override
             public void onResponse(String response){
                 Log.i("Battleship", response);
-                listener.ProcessResponse( command, response );
+                listener.ProcessResponse( _command, response );
 
             }
         },

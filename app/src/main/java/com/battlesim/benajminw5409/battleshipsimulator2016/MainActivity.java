@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,9 +41,6 @@ public class MainActivity extends BaseActivity implements ServerRequests{
     String password;
     ListView listView;
 
-    Map<String, String> usersMap = new HashMap<String, String>();
-    String[] usersArray;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +60,7 @@ public class MainActivity extends BaseActivity implements ServerRequests{
         sr = new ServerRequest(this, "LOGIN", username, password, loginUrl, queue);
         ImageLoader imageLoader = new ImageLoader(queue, new LruBitmapCache(LruBitmapCache.getCacheSize(this)));
 
-       // Defined Array values to show in ListView
+     /*  // Defined Array values to show in ListView
         String[] values = new String[] {
                 "Dave",
                 "Joe",
@@ -74,7 +72,7 @@ public class MainActivity extends BaseActivity implements ServerRequests{
                 "Scott"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
 
     }
 
@@ -124,28 +122,24 @@ public class MainActivity extends BaseActivity implements ServerRequests{
         }
     }
 
-    /*public  void processGetAllUsers(String response){
+    public  void processGetAllUsers(String response){
         Log.i("Battle", response);
         try {
-            JSONObject users = new JSONObject(response);
-            Iterator iter = users.keys();
-            while(iter.hasNext()){
-                String key = (String)iter.next();
-                String value = users.getString(key);
-                usersMap.put(value);
-                int size = usersMap.keySet().size();
-                usersArray = new String[size];
-                usersArray = usersMap.keySet().toArray(new String[0]);
+            JSONArray users = new JSONArray(response);
+            ArrayList<String> usersArray = new ArrayList<String>();
+            for (int i = 0; i < users.length(); i++) {
+                JSONObject jsonobject = users.getJSONObject(i);
+                String user_info = jsonobject.getString("first_name") + " " + jsonobject.getString("last_name") + "; available: " + jsonobject.getString("available");
+                usersArray.add(user_info);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, usersArray);
+                listView.setAdapter(adapter);
             }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, usersArray);
-            listView.setAdapter(adapter);
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public void startGameClick(View v){
         sr.setUrl( startGameUrl );
@@ -191,7 +185,7 @@ public class MainActivity extends BaseActivity implements ServerRequests{
 
             case "GETALLUSERS" :
                 Log.i("Battle", "GETALLUSERS----" + response);
-                //processGetAllUsers(response);
+                processGetAllUsers(response);
                 break;
 
             case "GETSHIPS" :

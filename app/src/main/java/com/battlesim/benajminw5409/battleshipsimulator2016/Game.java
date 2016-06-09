@@ -73,7 +73,7 @@ public class Game extends BaseActivity {
     private void SetupGame(){
 
         GetShips();
-        // GetDirections();
+        GetDirections();
 
     }
 
