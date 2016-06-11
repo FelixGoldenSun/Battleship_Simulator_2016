@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     String startGameUrl = "http://battlegameserver.com/api/v1/challenge_computer.json ";
     String availableShipsUrl = "http://battlegameserver.com/api/v1/available_ships.json ";
     String availableDirectionsUrl = "http://battlegameserver.com/api/v1/available_directions.json";
-
+    String addShipsUrl = "http://battlegameserver.com/api/v1/game/";
     static User user;
     Boolean loggedIn = false;
     static int gameId = -1; //negative to detect if the program broke

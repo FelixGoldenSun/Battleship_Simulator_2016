@@ -203,6 +203,11 @@ public class MainActivity extends BaseActivity implements ServerRequests{
                 processStartGame(response);
                 break;
 
+            case "ADDSHIP" :
+                Log.i("Battle", "ADDSHIP----" + response);
+                Game.processAddShip(response);
+                break;
+
             default : break;
         }
     }

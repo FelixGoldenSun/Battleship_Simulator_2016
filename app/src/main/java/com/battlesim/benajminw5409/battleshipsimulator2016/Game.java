@@ -3,6 +3,7 @@ package com.battlesim.benajminw5409.battleshipsimulator2016;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,12 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -41,6 +45,13 @@ public class Game extends BaseActivity {
     static String[] directionsArray;
     static ArrayAdapter<String> directionSpinnerArrayAdapter;
 
+    static String[][] cellArray = new String[10][10];
+
+    static View gameGridView;
+
+    static String status;
+    static String error;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +63,15 @@ public class Game extends BaseActivity {
         spAddRows = (Spinner) findViewById(R.id.spAddRows);
         spAddCols = (Spinner) findViewById(R.id.spAddCols);
         spAddDirections = (Spinner) findViewById(R.id.spAddDirections);
+        gameGridView = (View)findViewById(R.id.gameGridView);
 
         spAddShips.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("Battle", spAddShips.getSelectedItem().toString());
+                String shipName = spAddShips.getSelectedItem().toString();
+                shipName = shipName.split("\\(")[0];
+
+                Log.i("Battle", "addshipval: " + shipName);
             }
 
             @Override
@@ -65,8 +80,45 @@ public class Game extends BaseActivity {
             }
         });
 
+        gameGridView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Log.i("Battle", "onTouch:" + event.getX() + " : " + event.getY());
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    Log.i("Battle", "onTouch:" + event.getX() + " : " + event.getY());
+                    findRowCol( event.getX(), event.getY());
+                    return true;
+                }
+                return true;
+            }
+        });
+
+        int row = 0;
+        int col = 0;
+        while(row < 10){
+            while (col < 10){
+                cellArray[row][col] = "";
+                col += 1;
+            }
+            col = 0;
+            row += 1;
+        }
+
+        BoardView.setArray(cellArray);
+        gameGridView.invalidate();
+
+        Log.i("Battle", Arrays.deepToString(cellArray));
+
         tvGameId.setText("ID: " + gameId);
         SetupGame();
+
+
+    }
+
+    private void findRowCol(float x, float y) {
+        int cellWidth = BoardView.cellWidth;
+        int row = (int)(x / cellWidth);
+        int col = (int)(y / cellWidth);
 
     }
 
@@ -98,6 +150,7 @@ public class Game extends BaseActivity {
                 shipSpinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, shipsArray);
                 shipSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spAddShips.setAdapter(shipSpinnerArrayAdapter);
+
             }
 
 
@@ -135,9 +188,62 @@ public class Game extends BaseActivity {
         }
     }
 
+    public void AddShip(String shipName, String row, String col, String direction) {
+        sr.setUrl(  addShipsUrl + gameId + "/add_ship/" + shipName + "/" + row + "/" + col + "/" + direction + ".json");
+        sr.makeRequest("ADDSHIP");
+    }
+
+    public static void  processAddShip(String response){
+        Log.i("Battle", response);
+        try {
+
+            JSONObject shi = new JSONObject(response);
+            status = null;
+            error = null;
+
+            try {
+                status = shi.getString("status");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                error = shi.getString("error");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (status != null) {
+                Log.i("addShip", status);
+
+
+
+            } else {
+                Log.i("addShip", error);
+            }
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addShipOnClick(View v){
+
         String shipName = spAddShips.getSelectedItem().toString();
+        shipName = shipName.split("\\(")[0];
+
+        Log.i("Battle", "addshipval: " + shipName);
         String row = spAddRows.getSelectedItem().toString();
         String col = spAddCols.getSelectedItem().toString();
+        String direction = spAddDirections.getSelectedItem().toString();
+
+        AddShip(shipName, row, col, direction);
+
     }
+
+
 }

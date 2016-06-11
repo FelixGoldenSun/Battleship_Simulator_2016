@@ -19,6 +19,8 @@ public class BoardView extends ImageView {
     Paint paint;
     String[] rowsArray;
     String[] colsArray;
+    public static int cellWidth;
+    static String[][] cellArray;
 
     public BoardView( Context context, AttributeSet attrs ){
         super(context, attrs);
@@ -39,7 +41,7 @@ public class BoardView extends ImageView {
         paint.setColor(Color.BLACK);
         canvas.drawLine(2, 0, 0, screenWidth, paint);
 
-        int cellWidth = screenWidth / 11;
+        cellWidth = screenWidth / 11;
         paint.setTextSize( cellWidth ); //TODO chage to be based on the screenWidth.
         for(int i = 0;i < 12; i++){
             canvas.drawLine((i * cellWidth), 0, (i * cellWidth), screenWidth, paint); //X
@@ -68,5 +70,28 @@ public class BoardView extends ImageView {
             textX += cellWidth;
             canvas.drawText(col, textX, textY, paint);
         }
+
+        textX = cellWidth / 2;
+        textY = cellWidth + ( cellWidth / 2) - ( height / 2 );
+
+        if(cellArray.length > 0){
+            int row = 0;
+            int col = 0;
+            while(row < 10){
+                textY += cellWidth;
+                while (col < 10){
+                    textX += cellWidth;
+                    canvas.drawText(cellArray[row][col], textX, textY, paint);
+                    col += 1;
+                }
+                textX = cellWidth / 2;
+                col = 0;
+                row += 1;
+            }
+        }
+    }
+
+    public static void setArray(String[][] array){
+        cellArray = array;
     }
 }
