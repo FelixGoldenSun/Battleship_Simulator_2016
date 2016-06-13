@@ -73,43 +73,17 @@
         android:text="New Game"
         android:id="@+id/btnStartGame"
         android:onClick="startGameClick"
-        android:layout_below="@+id/btnUserPreferences"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Existing"
-        android:id="@+id/btnStartExisting"
-        android:onClick="startExistingGameClick"
-        android:layout_below="@+id/etPassword"
-        android:layout_toEndOf="@+id/btnLogin" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etExistingId"
-        android:layout_above="@+id/listView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/btnStartExisting" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Game ID:"
-        android:id="@+id/textView6"
-        android:layout_above="@+id/etExistingId"
-        android:layout_toEndOf="@+id/btnStartExisting" />
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get Users"
-        android:id="@+id/button"
-        android:layout_alignTop="@+id/btnStartGame"
-        android:layout_centerHorizontal="true"
-        android:onClick="getAllUsersOnClick" />
+        android:id="@+id/btnGetUsers"
+        android:onClick="getAllUsersOnClick"
+        android:layout_above="@+id/btnStartGame"
+        android:layout_toEndOf="@+id/btnLogin" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -117,6 +91,5 @@
         android:id="@+id/listView"
         android:layout_below="@+id/btnStartGame"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/etExistingId"
         android:choiceMode="singleChoice" />
 </RelativeLayout>

@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
        <activity android:name=".BattlePrefs"> </activity>
-       <activity android:name=".Game"> </activity>
+       <activity android:name=".GameSetup"> </activity>
+        <activity android:name=".GameBoard"> </activity>
     </application>
 
 </manifest>

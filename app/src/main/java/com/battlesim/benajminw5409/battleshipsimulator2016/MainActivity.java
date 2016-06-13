@@ -1,9 +1,6 @@
 package com.battlesim.benajminw5409.battleshipsimulator2016;
 
-import android.content.Context;
 import android.content.Intent;
-import android.preference.Preference;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 interface ServerRequests{
     public void ProcessResponse(String command, String response);
@@ -33,10 +27,10 @@ public class MainActivity extends BaseActivity implements ServerRequests{
 
     EditText etUsername;
     EditText etPassword;
-    EditText etExistingId;
     Button btnLogin;
     Button btnUserPreferences;
     Button btnStartGame;
+    Button btnGetUsers;
     String username;
     String password;
     ListView listView;
@@ -48,31 +42,18 @@ public class MainActivity extends BaseActivity implements ServerRequests{
 
         etUsername = (EditText) findViewById(R.id.etUserName);
         etPassword = (EditText) findViewById(R.id.etPassword);
-        etExistingId = (EditText) findViewById(R.id.etExistingId);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnUserPreferences = (Button) findViewById(R.id.btnUserPreferences);
         btnStartGame = (Button) findViewById(R.id.btnStartGame);
+        btnGetUsers = (Button) findViewById(R.id.btnGetUsers);
         listView = (ListView) findViewById(R.id.listView);
         btnUserPreferences.setEnabled(false);
         btnStartGame.setEnabled(false);
+        btnGetUsers.setEnabled(false);
 
         RequestQueue queue = Volley.newRequestQueue( this );
         sr = new ServerRequest(this, "LOGIN", username, password, loginUrl, queue);
         ImageLoader imageLoader = new ImageLoader(queue, new LruBitmapCache(LruBitmapCache.getCacheSize(this)));
-
-     /*  // Defined Array values to show in ListView
-        String[] values = new String[] {
-                "Dave",
-                "Joe",
-                "Sally",
-                "Sharon",
-                "Karen",
-                "Tom",
-                "Lynn",
-                "Scott"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
-        listView.setAdapter(adapter);*/
 
     }
 
@@ -94,6 +75,7 @@ public class MainActivity extends BaseActivity implements ServerRequests{
             etUsername.setEnabled(true);
             etPassword.setEnabled(true);
             btnStartGame.setEnabled(false);
+            btnGetUsers.setEnabled(false);
             loggedIn = false;
 
         }
@@ -113,7 +95,7 @@ public class MainActivity extends BaseActivity implements ServerRequests{
             etUsername.setEnabled(false);
             etPassword.setEnabled(false);
             btnStartGame.setEnabled(true);
-
+            btnGetUsers.setEnabled(true);
 
             Log.i("Battle", user.toString());
 
@@ -146,17 +128,17 @@ public class MainActivity extends BaseActivity implements ServerRequests{
         sr.makeRequest("STARTGAME");
     }
 
-    public void startExistingGameClick(View v){
+    /*public void startExistingGameClick(View v){
         gameId = Integer.valueOf(etExistingId.getText().toString());
-        startActivity( new Intent( this, Game.class));
-    }
+        startActivity( new Intent( this, GameSetup.class));
+    }*/
 
     private void processStartGame(String response){
         try {
             JSONObject jsonObject = new JSONObject(response);
             gameId = jsonObject.getInt("game_id");
-            Log.i("Battle", "Game ID: " + gameId);
-            startActivity( new Intent( this, Game.class));
+            Log.i("Battle", "GameSetup ID: " + gameId);
+            startActivity( new Intent( this, GameSetup.class));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -190,12 +172,12 @@ public class MainActivity extends BaseActivity implements ServerRequests{
 
             case "GETSHIPS" :
                 Log.i("Battle", "GETSHIPS----" + response);
-                Game.processGetShips(getApplicationContext(), response);
+                GameSetup.processGetShips(getApplicationContext(), response);
                 break;
 
             case "GETDIRECTIONS" :
                 Log.i("Battle", "GETDIRECTIONS----" + response);
-                Game.processGetDirections(getApplicationContext(), response);
+                GameSetup.processGetDirections(getApplicationContext(), response);
                 break;
 
             case "STARTGAME" :
@@ -205,8 +187,14 @@ public class MainActivity extends BaseActivity implements ServerRequests{
 
             case "ADDSHIP" :
                 Log.i("Battle", "ADDSHIP----" + response);
-                Game.processAddShip(response);
+                GameSetup.processAddShip(getApplicationContext(), response);
                 break;
+
+            case "ATTACK" :
+                Log.i("Battle", "ATTACK----" + response);
+                GameBoard.processAttack(getApplicationContext(), response);
+                break;
+
 
             default : break;
         }

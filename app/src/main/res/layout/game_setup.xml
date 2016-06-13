@@ -62,11 +62,12 @@
         android:layout_alignStart="@+id/spAddCols"
         android:background="#8653709f" />
 
-    <com.battlesim.benajminw5409.battleshipsimulator2016.BoardView
-        android:layout_width="fill_parent"
+    <com.battlesim.benajminw5409.battleshipsimulator2016.DefendingView
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/gameGridView"
         android:layout_below="@+id/btnAddShip"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
