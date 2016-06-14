@@ -32,8 +32,9 @@ public class DefendingView extends ImageView {
 
     @Override
     protected void onDraw( Canvas canvas ){
-        screenHeight = canvas.getHeight() - 300;
-        screenWidth = canvas.getWidth() - 400;
+        screenHeight = canvas.getHeight();
+        screenWidth = canvas.getWidth();
+        screenWidth = screenWidth / 2;
 
         paint.setColor( Color.CYAN);
         canvas.drawRect(0,0,screenWidth, screenWidth, paint);
